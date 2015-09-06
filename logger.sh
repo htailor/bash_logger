@@ -20,31 +20,47 @@ function datetime(){
 function logging_debug(){
 	if [ "$LOG_LEVEL" -lt "10" ]
 	then
-		echo -e "\033[01;38;05;10m$(datetime) DEBUG $1\033[0m"
+		if [[ -t 1 ]]; then
+			echo -e "\033[01;38;05;10m$(datetime) DEBUG $1\033[0m"
+		else
+			echo "$(datetime) DEBUG $1"
+		fi
 	fi
 }
 
 function logging_info(){
 	if [ "$LOG_LEVEL" -lt "20" ]
 	then
-		echo -e "$(datetime) INFO $1"
+		echo "$(datetime) INFO $1"
 	fi
 }
 
 function logging_warn(){
 	if [ "$LOG_LEVEL" -lt "30" ]
 	then
-		echo -e "\033[01;38;05;11m$(datetime) WARN $1\033[0m"
+		if [[ -t 1 ]]; then
+			echo -e "\033[01;38;05;11m$(datetime) WARN $1\033[0m"
+		else
+			echo "$(datetime) WARN $1"
+		fi
 	fi
 }
 
 function logging_critical(){
 	if [ "$LOG_LEVEL" -lt "40" ]
 	then
-		echo -e "\033[01;38;05;13m$(datetime) CRITICAL $1\033[0m"
+		if [[ -t 1 ]]; then
+			echo -e "\033[01;38;05;13m$(datetime) CRITICAL $1\033[0m"
+		else
+			echo "$(datetime) CRITICAL $1"
+		fi
 	fi
 }
 
 function logging_error(){
-	echo -e "\033[01;38;05;09m$(datetime) ERROR $1\033[0m"
+	if [[ -t 1 ]]; then
+		echo -e "\033[01;38;05;09m$(datetime) ERROR $1\033[0m"
+	else
+		echo "$(datetime) ERROR $1"
+	fi
 }
