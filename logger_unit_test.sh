@@ -3,11 +3,11 @@
 source logger.sh
 
 function logs(){
-    logging_debug "Debug test"
-    logging_info "Info test"
-    logging_warn "Warn test"
-    logging_critical "Critial test"
-    logging_error "Error test"
+    logging_debug "This is a debug test message"
+    logging_info "This is an info test message"
+    logging_warn "This is a warn test message"
+    logging_critical "This is a critical test message"
+    logging_error "This is an error test message"
 }
 
 # default log level

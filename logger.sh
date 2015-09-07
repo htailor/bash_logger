@@ -17,50 +17,56 @@ function datetime(){
 	date +"%Y/%m/%d %T"
 }
 
-function logging_debug(){
-	if [ "$LOG_LEVEL" -lt "10" ]
+function logging(){
+	LOG_LEVEL_THRESHOLD=$1
+	LOGGING_LEVEL=$2
+	COLOR_CODE=$3
+	MESSAGE=${@:4}
+
+	LOG_MESSAGE="$(datetime) ${LOGGING_LEVEL} ${MESSAGE}"
+	LOG_MESSAGE_TERM="${COLOR_CODE}${LOG_MESSAGE}\033[0m"
+
+	if [ ${LOG_LEVEL} -lt ${LOG_LEVEL_THRESHOLD} ]
 	then
 		if [[ -t 1 ]]; then
-			echo -e "\033[01;38;05;10m$(datetime) DEBUG $1\033[0m"
+			echo -e ${LOG_MESSAGE_TERM}
 		else
-			echo "$(datetime) DEBUG $1"
+			echo ${LOG_MESSAGE}
 		fi
 	fi
 }
 
-function logging_info(){
-	if [ "$LOG_LEVEL" -lt "20" ]
-	then
-		echo "$(datetime) INFO $1"
-	fi
+function log_debug(){
+	LOG_LEVEL_THRESHOLD=10
+	LOGGING_LEVEL="DEBUG"
+	COLOR="\033[01;38;05;10m"
+	logging ${LOG_LEVEL_THRESHOLD} ${LOGGING_LEVEL} ${COLOR} $1
 }
 
-function logging_warn(){
-	if [ "$LOG_LEVEL" -lt "30" ]
-	then
-		if [[ -t 1 ]]; then
-			echo -e "\033[01;38;05;11m$(datetime) WARN $1\033[0m"
-		else
-			echo "$(datetime) WARN $1"
-		fi
-	fi
+function log_info(){
+	LOG_LEVEL_THRESHOLD=20
+	LOGGING_LEVEL="INFO"
+	COLOR="\033[0m"
+	logging ${LOG_LEVEL_THRESHOLD} ${LOGGING_LEVEL} ${COLOR} $1
 }
 
-function logging_critical(){
-	if [ "$LOG_LEVEL" -lt "40" ]
-	then
-		if [[ -t 1 ]]; then
-			echo -e "\033[01;38;05;13m$(datetime) CRITICAL $1\033[0m"
-		else
-			echo "$(datetime) CRITICAL $1"
-		fi
-	fi
+function log_warn(){
+	LOG_LEVEL_THRESHOLD=30
+	LOGGING_LEVEL="WARN"
+	COLOR="\033[01;38;05;11m"
+	logging ${LOG_LEVEL_THRESHOLD} ${LOGGING_LEVEL} ${COLOR} $1
 }
 
-function logging_error(){
-	if [[ -t 1 ]]; then
-		echo -e "\033[01;38;05;09m$(datetime) ERROR $1\033[0m"
-	else
-		echo "$(datetime) ERROR $1"
-	fi
+function log_critical(){
+	LOG_LEVEL_THRESHOLD=40
+	LOGGING_LEVEL="CRITICAL"
+	COLOR="\033[01;38;05;13m"
+	logging ${LOG_LEVEL_THRESHOLD} ${LOGGING_LEVEL} ${COLOR} $1
+}
+
+function log_error(){
+	LOG_LEVEL_THRESHOLD=50
+	LOGGING_LEVEL="ERROR"
+	COLOR="\033[01;38;05;09m"
+	logging ${LOG_LEVEL_THRESHOLD} ${LOGGING_LEVEL} ${COLOR} $1
 }
