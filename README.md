@@ -13,7 +13,7 @@ Key features
 Implementation
 ===========
 
-To use the progress bar, include the following header file:
+To add logging functions to a bash script, include the following at the top of the script:
 
 ```Bash
 source logger.sh
